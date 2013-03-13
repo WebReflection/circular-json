@@ -1,0 +1,152 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>Circular-json</title>
+  <meta name="description" content="JSON does not handle circular references. Now it does">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Circular-json</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">JSON does not handle circular references. Now it does</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/WebReflection/circular-json/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/WebReflection/circular-json/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/WebReflection/circular-json" class="code">View Circular-json on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h1>CircularJSON</h1>
+
+<p><a href="http://travis-ci.org/WebReflection/circular-json"><img src="https://secure.travis-ci.org/WebReflection/circular-json.png" alt="build status"></a></p>
+
+<h3>A Working Solution To A Common Problem</h3>
+
+<p>A usage example:</p>
+
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">object</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="nx">object</span><span class="p">.</span><span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="nx">object</span><span class="p">,</span> <span class="nx">object</span>
+<span class="p">];</span>
+<span class="nx">object</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">object</span><span class="p">.</span><span class="nx">arr</span><span class="p">);</span>
+<span class="nx">object</span><span class="p">.</span><span class="nx">obj</span> <span class="o">=</span> <span class="nx">object</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">serialized</span> <span class="o">=</span> <span class="nx">CircularJSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">object</span><span class="p">);</span>
+<span class="c1">// '{"arr":["~","~","~arr"],"obj":"~"}'</span>
+<span class="c1">// NOTE: CircularJSON DOES NOT parse JS</span>
+<span class="c1">// it handles receiver and reviver callbacks</span>
+
+<span class="kd">var</span> <span class="nx">unserialized</span> <span class="o">=</span> <span class="nx">CircularJSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">serialized</span><span class="p">);</span>
+<span class="c1">// { arr: [ [Circular], [Circular] ],</span>
+<span class="c1">// obj: [Circular] }</span>
+
+<span class="nx">unserialized</span><span class="p">.</span><span class="nx">obj</span> <span class="o">===</span> <span class="nx">unserialized</span><span class="p">;</span>
+<span class="nx">unserialized</span><span class="p">.</span><span class="nx">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">===</span> <span class="nx">unserialized</span><span class="p">;</span>
+<span class="nx">unserialized</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span> <span class="o">===</span> <span class="nx">unserialized</span><span class="p">.</span><span class="nx">arr</span><span class="p">;</span>
+</pre></div>
+
+<p>A quick summary:</p>
+
+<ul>
+<li>same as <code>JSON.stringify</code> and <code>JSON.parse</code> methods with same type of arguments (same JSON API)</li>
+<li>reasonably fast in both serialization and deserialization</li>
+<li>compact serialization for easier and slimmer transportation across environments</li>
+<li>
+<a href="test/circular-json.js">tested and covered</a> over nasty structures too</li>
+<li>compatible with all JavaScript engines</li>
+</ul><h3>Dependencies</h3>
+
+<p>A proper <strong>JSON</strong> object must be globally available if the browser/engine does not support it.</p>
+
+<p>Dependencies free if you target IE8 and greater or any server side JS engine.</p>
+
+<p>Bear in mind <code>JSON.parse(CircularJSON.stringify(object))</code> will work but not produce the expected output.</p>
+
+<p>It is also <em>a bad idea</em> to <code>CircularJSON.parse(JSON.stringify(object))</code> because of those manipulation used in <code>CircularJSON.stringify()</code> able to make parsing safe and secure.</p>
+
+<p>As summary: <code>CircularJSON.parse(CircularJSON.stringify(object))</code> is the way to go, same is for <code>JSON.parse(JSON.stringify(object))</code>.</p>
+
+<h3>Which Version</h3>
+
+<p>The usual structure for my repos, the one generated via <a href="https://github.com/WebReflection/gitstrap">gitstrap</a>, so:</p>
+
+<ul>
+<li>all browsers, generic, as <a href="build/circular-json.js">global CircularJSON object</a>
+</li>
+<li>
+<a href="build/circular-json.node.js">node.js module</a>, also via <code>npm install circular-json</code> and later on <code>var CircularJSON = require('circular-json')</code>
+</li>
+<li>
+<a href="build/circular-json.amd.js">AMD module</a> loader, as CircularJSON object</li>
+</ul><p>The <strong>API</strong> is the <strong>same as JSON Object</strong> so nothing new to learn here while <a href="test/circular-json.js">full test coverage</a> is also in the usual place with some example included.</p>
+
+<h3>Why Not the <a href="https://twitter.com/izs">@izs</a> One</h3>
+
+<p>The module <a href="https://github.com/isaacs/json-stringify-safe">json-stringify-safe</a> seems to be for <code>console.log()</code>  but it's completely pointless for <code>JSON.parse()</code>, being latter one unable to retrieve back the initial structure. Here an example:</p>
+
+<div class="highlight"><pre><span class="c1">// a logged object with circular references</span>
+<span class="p">{</span>
+  <span class="s2">"circularRef"</span><span class="o">:</span> <span class="s2">"[Circular]"</span><span class="p">,</span>
+  <span class="s2">"list"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="s2">"[Circular]"</span><span class="p">,</span>
+    <span class="s2">"[Circular]"</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+<span class="c1">// what do we do with above output ?</span>
+</pre></div>
+
+<p>Just type this in your <code>node</code> console: <code>var o = {}; o.a = o; console.log(o);</code>. The output will be <code>{ a: [Circular] }</code> ... good, but that ain't really solving the problem.</p>
+
+<p>However, if that's all you need, the function used to create that kind of output is probably faster than <code>CircularJSON</code> and surely fits in less lines of code.</p>
+
+<h3>Why Not {{put random name}} Solution</h3>
+
+<p>So here the thing: circular references can be wrong but, if there is a need for them, any attempt to ignore them or remove them can be considered just a failure.</p>
+
+<p>Not because the method is bad or it's not working, simply because the circular info, the one we needed and used in the first place, is lost!</p>
+
+<p>In this case, <code>CircularJSON</code> does even more than just solve circular and recursions: it maps all same objects so that less memory is used as well on deserialization as less bandwidth too!
+It's able to redefine those references back later on so the way we store is the way we retrieve and in a reasonably performant way, also trusting the snappy and native <code>JSON</code> methods to iterate.</p>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/WebReflection" class="avatar"><img src="https://secure.gravatar.com/avatar/799a8a6502aff3268519382ea2837d4b?s=30&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png" width="48" height="48"/></a> <a href="https://github.com/WebReflection">WebReflection</a> maintains <a href="https://github.com/WebReflection/circular-json">Circular-json</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="http://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/WebReflection/circular-json/tarball/master" class="tar">tar</a><a href="https://github.com/WebReflection/circular-json/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
