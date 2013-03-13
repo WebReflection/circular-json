@@ -98,5 +98,24 @@ wru.test([
         o.a.join('') === '~~~~~~'
       );
     }
-  }
+  }/*
+  ,{
+    name: 'reviver',
+    test: function() {
+      var o = {'~':'~'};
+      o.o = o;
+      o.a = [o];
+      var s = CircularJSON.stringify(o);
+      console.log(s);
+      var calls = [];
+      o = CircularJSON.parse(s, function (key, value) {
+        calls.push(key, value);
+        if (value instanceof Array) {
+          calls.o = value[0].constructor;
+        }
+        return value;
+      });
+      console.log(calls.o);
+    }
+  }//*/
 ]);
