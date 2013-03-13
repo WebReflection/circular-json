@@ -105,17 +105,27 @@ wru.test([
       var o = {'~':'~'};
       o.o = o;
       o.a = [o];
+      o.r = {a:o.a};
+      o.z = {a:o.a};
       var s = CircularJSON.stringify(o);
-      console.log(s);
+      wru.log(s);
       var calls = [];
-      o = CircularJSON.parse(s, function (key, value) {
-        calls.push(key, value);
+      o = CircularJSON.parse('{"a":[{}]}', function (key, value) {
+        //calls.push(key, value);
+        console.log(value);
         if (value instanceof Array) {
-          calls.o = value[0].constructor;
+          value[0] = new String('');
         }
         return value;
       });
-      console.log(calls.o);
+      //wru.log(calls.o);
+      JSON.parse('{"a":[{}]}', function (key, value) {
+        console.log(value);
+        if (value instanceof Array) {
+          value[0] = 123;
+        }
+        return value;
+      });
     }
   }//*/
 ]);
