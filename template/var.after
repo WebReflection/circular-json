@@ -1,1 +1,6 @@
-;
+
+return {
+  stringify: stringifyRecursion,
+  parse: parseRecursion
+};
+}(JSON, RegExp));

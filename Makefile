@@ -12,6 +12,7 @@ NODE = $(VAR)
 # make amd files
 AMD = $(VAR)
 
+
 # README constant
 
 
@@ -101,6 +102,6 @@ dependencies:
 	mkdir node_modules
 	npm install wru
 	npm install polpetta
+	npm install markdown
 	npm install uglify-js@1
 	npm install jshint
-	npm install markdown

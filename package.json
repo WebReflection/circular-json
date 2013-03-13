@@ -1,12 +1,13 @@
 {
-  "version": "0.0.0",
+  "version": "0.1.0",
   "name": "circular-json",
-  "description": "",
+  "description": "JSON does not handle circular references. This version does",
   "homepage": "https://github.com/WebReflection/circular-json",
-  "keywords": [],
+  "keywords": ["JSON", "circular", "reference", "recursive", "recursion", "parse", "stringify"],
+  "generator": "https://github.com/WebReflection/gitstrap",
   "author": {
-    "name": "",
-    "web": ""
+    "name": "Andrea Giammarchi",
+    "web": "http://webreflection.blogspot.com/"
   },
   "repository": {
     "type": "git",
