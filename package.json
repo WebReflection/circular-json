@@ -1,0 +1,22 @@
+{
+  "version": "0.0.0",
+  "name": "circular-json",
+  "description": "",
+  "homepage": "https://github.com/WebReflection/circular-json",
+  "keywords": [],
+  "author": {
+    "name": "",
+    "web": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/WebReflection/circular-json.git"
+  },
+  "main": "./build/circular-json.node.js",
+  "scripts": {
+    "test": "node test/.test.js"
+  },
+  "dependencies": {
+    "wru": ">= 0.0.0"
+  }
+}
