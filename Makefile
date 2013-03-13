@@ -79,18 +79,20 @@ preview:
 	rm README.md.htm README.md.html
 
 pages:
+	git pull --rebase
 	make var
 	mkdir -p ~/tmp
 	mkdir -p ~/tmp/$(REPO)
 	cp -rf src ~/tmp/$(REPO)
-	cp -rf build/* ~/tmp/$(REPO)/src/
+	cp -rf build ~/tmp/$(REPO)
 	cp -rf test ~/tmp/$(REPO)
 	cp index.html ~/tmp/$(REPO)
 	git checkout gh-pages
 	mkdir -p test
 	rm -rf test
 	cp -rf ~/tmp/$(REPO) test
-	git add .
+	git add test
+	git add test/.
 	git commit -m 'automatic test generator'
 	git push
 	git checkout master
