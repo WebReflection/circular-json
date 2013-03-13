@@ -3,7 +3,6 @@ CircularJSON
 
 [![build status](https://secure.travis-ci.org/WebReflection/circular-json.png)](http://travis-ci.org/WebReflection/circular-json)
 
-
 ### A Working Solution To A Common Problem
 A usage example:
 
@@ -17,6 +16,8 @@ object.obj = object;
 
 var serialized = CircularJSON.stringify(object);
 // '{"arr":["~","~","~arr"],"obj":"~"}'
+// NOTE: CircularJSON DOES NOT parse JS
+// it handles receiver and reviver callbacks
 
 var unserialized = CircularJSON.parse(serialized);
 // { arr: [ [Circular], [Circular] ],
