@@ -47,6 +47,8 @@ dummy100 = dummy50.concat(dummy50);
 console.log('-----------------------------------');
 run(CircularJSON.stringify, dummy100);
 run(CircularJSON.parse, r);
+run(JSON.stringify, dummy100);
+run(JSON.parse, r);
 console.log('-----------------------------------');
 console.log('90% same objects');
 dummy100 = [].concat(
@@ -56,6 +58,5 @@ dummy100 = [].concat(
 console.log('-----------------------------------');
 run(CircularJSON.stringify, dummy100);
 run(CircularJSON.parse, r);
-
 run(JSON.stringify, dummy100);
 run(JSON.parse, r);
