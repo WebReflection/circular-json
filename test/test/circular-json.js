@@ -98,5 +98,34 @@ wru.test([
         o.a.join('') === '~~~~~~'
       );
     }
-  }
+  }/*
+  ,{
+    name: 'reviver',
+    test: function() {
+      var o = {'~':'~'};
+      o.o = o;
+      o.a = [o];
+      o.r = {a:o.a};
+      o.z = {a:o.a};
+      var s = CircularJSON.stringify(o);
+      wru.log(s);
+      var calls = [];
+      o = CircularJSON.parse('{"a":[{}]}', function (key, value) {
+        //calls.push(key, value);
+        console.log(value);
+        if (value instanceof Array) {
+          value[0] = new String('');
+        }
+        return value;
+      });
+      //wru.log(calls.o);
+      JSON.parse('{"a":[{}]}', function (key, value) {
+        console.log(value);
+        if (value instanceof Array) {
+          value[0] = 123;
+        }
+        return value;
+      });
+    }
+  }//*/
 ]);

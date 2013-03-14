@@ -93,7 +93,7 @@ function generateReviver(reviver) {
     if (isString && value.charAt(0) === specialChar) {
       return new $String(value.slice(1));
     }
-    if (!key) value = regenerate(value, value, {});
+    if (key === '') value = regenerate(value, value, {});
     // again, only one needed, do not use the RegExp for this replacement
     // only keys need the RegExp
     if (isString) value = value.replace(safeSpecialChar, specialChar);
