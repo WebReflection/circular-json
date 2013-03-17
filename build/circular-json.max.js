@@ -41,11 +41,11 @@ var
                     // faked, and happy linter!
 ;
 
-function generateReplacer(value, replacer) {
+function generateReplacer(value, replacer, resolve) {
   var
     path = [],
     seen = [value],
-    mapp = [specialChar],
+    mapp = [resolve ? specialChar : '[Circular]'],
     i
   ;
   return function(key, value) {
@@ -60,15 +60,20 @@ function generateReplacer(value, replacer) {
       if (typeof value === 'object' && value) {
         i = indexOf.call(seen, value);
         if (i < 0) {
-          // key cannot contain specialChar but could be not a string
-          path.push(('' + key).replace(specialCharRG, safeSpecialChar));
-          mapp[seen.push(value) - 1] = specialChar + path.join(specialChar);
+          i = seen.push(value) - 1;
+          if (resolve) {
+            // key cannot contain specialChar but could be not a string
+            path.push(('' + key).replace(specialCharRG, safeSpecialChar));
+            mapp[i] = specialChar + path.join(specialChar);
+          } else {
+            mapp[i] = mapp[0];
+          }
         } else {
           value = mapp[i];
         }
       } else {
         path.pop();
-        if (typeof value === 'string') {
+        if (typeof value === 'string' && resolve) {
           // ensure no special char involved on deserialization
           // in this case only first char is important
           // no need to replace all value (better performance)
@@ -147,8 +152,8 @@ function regenerate(root, current, retrieve) {
   ;
 }
 
-function stringifyRecursion(value, replacer, space) {
-  return JSON.stringify(value, generateReplacer(value, replacer), space);
+function stringifyRecursion(value, replacer, space, doNotResolve) {
+  return JSON.stringify(value, generateReplacer(value, replacer, !doNotResolve), space);
 }
 
 function parseRecursion(text, reviver) {

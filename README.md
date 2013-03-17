@@ -30,11 +30,12 @@ unserialized.arr.pop() === unserialized.arr;
 
 A quick summary:
 
-  * same as `JSON.stringify` and `JSON.parse` methods with same type of arguments (same JSON API)
+  * same as `JSON.stringify` and `JSON.parse` methods with same type of arguments (same JSON API, an extra optional argument has been added to `.stringify()` to support simple placeholder)
   * reasonably fast in both serialization and deserialization
   * compact serialization for easier and slimmer transportation across environments
   * [tested and covered](test/circular-json.js) over nasty structures too
   * compatible with all JavaScript engines
+  * possibility to do not resolve circular references via extra argument. As example, `CircularJSON.stringify(data, null, null, true)` can produce an output with `"[Circular]"` placeholder as other implementations might do.
 
 
 ### Dependencies

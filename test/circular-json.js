@@ -98,6 +98,16 @@ wru.test([
         o.a.join('') === '~~~~~~'
       );
     }
+  },{
+    name: 'doNotResolve',
+    test: function () {
+      var o = {a:[1,2,3]};
+      o.o = o;
+      o.a.push(o);
+      o = CircularJSON.parse(CircularJSON.stringify(o, null, null, true));
+      wru.log('no way to retrieve the path', o.o === '[Circular]');
+      wru.log('same structure though', o.a[3] === '[Circular]');
+    }
   }/*
   ,{
     name: 'reviver',
