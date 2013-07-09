@@ -4,6 +4,17 @@ var CircularJSON = require('../build/circular-json.node.js');
 
 wru.test([
   {
+    name: 'simulating special char',
+    test: function () {
+      var special = "\\x7e"; // \x7e is ~
+      //wru.log(CircularJSON.stringify({a:special}));
+      //wru.log(CircularJSON.parse(CircularJSON.stringify({a:special})).a);
+      wru.assert('no problem with simulation', CircularJSON.parse(CircularJSON.stringify({a:special})).a === special);
+      special = "~\\x7e";
+      wru.assert('no problem with special', CircularJSON.parse(CircularJSON.stringify({a:special})).a === special);
+    }
+  },
+  {
     name: "CircularJSON",
     test: function () {
       var o = {a: 'a', b: 'b', c: function(){}, d: {e: 123}},
@@ -73,7 +84,12 @@ wru.test([
     test: function () {
       var o = {};
       o['~'] = o;
+      o['\\x7e'] = '\\x7e';
       o.test = '~';
+
+      //wru.log(CircularJSON.stringify(o));
+      //wru.log(CircularJSON.parse(CircularJSON.stringify(o)));
+
       o = CircularJSON.parse(CircularJSON.stringify(o));
       wru.assert('still intact', o['~'] === o && o.test === '~');
       o = {
@@ -105,8 +121,8 @@ wru.test([
       o.o = o;
       o.a.push(o);
       o = CircularJSON.parse(CircularJSON.stringify(o, null, null, true));
-      wru.log('no way to retrieve the path', o.o === '[Circular]');
-      wru.log('same structure though', o.a[3] === '[Circular]');
+      wru.assert('no way to retrieve the path', o.o === '[Circular]');
+      wru.assert('same structure though', o.a[3] === '[Circular]');
     }
   }/*
   ,{

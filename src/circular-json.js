@@ -7,8 +7,12 @@ var
   safeSpecialChar = '\\x' + (
     '0' + specialChar.charCodeAt(0).toString(16)
   ).slice(-2),
+  escapedSafeSpecialChar = '\\' + safeSpecialChar,
   specialCharRG = new RegExp(safeSpecialChar, 'g'),
-  safeSpecialCharRG = new RegExp('\\' + safeSpecialChar, 'g'),
+  safeSpecialCharRG = new RegExp(escapedSafeSpecialChar, 'g'),
+
+  safeStartWithSpecialCharRG = new RegExp('(?:^|[^\\\\])' + escapedSafeSpecialChar),
+
   indexOf = [].indexOf || function(v){
     for(var i=this.length;i--&&this[i]!==v;);
     return i;
@@ -54,7 +58,8 @@ function generateReplacer(value, replacer, resolve) {
           // ensure no special char involved on deserialization
           // in this case only first char is important
           // no need to replace all value (better performance)
-          value = value.replace(specialChar, safeSpecialChar);
+          value = value .replace(safeSpecialChar, escapedSafeSpecialChar)
+                        .replace(specialChar, safeSpecialChar);
         }
       }
     }
@@ -79,7 +84,8 @@ function generateReviver(reviver) {
     if (key === '') value = regenerate(value, value, {});
     // again, only one needed, do not use the RegExp for this replacement
     // only keys need the RegExp
-    if (isString) value = value.replace(safeSpecialChar, specialChar);
+    if (isString) value = value .replace(safeStartWithSpecialCharRG, specialChar)
+                                .replace(escapedSafeSpecialChar, safeSpecialChar);
     return reviver ? reviver(key, value) : value;
   };
 }
