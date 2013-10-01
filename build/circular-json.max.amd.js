@@ -109,7 +109,7 @@ function generateReviver(reviver) {
     // only keys need the RegExp
     if (isString) value = value .replace(safeStartWithSpecialCharRG, specialChar)
                                 .replace(escapedSafeSpecialChar, safeSpecialChar);
-    return reviver ? reviver(key, value) : value;
+    return reviver ? reviver.call(this, key, value) : value;
   };
 }
 
