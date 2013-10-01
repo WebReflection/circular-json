@@ -124,6 +124,19 @@ wru.test([
       wru.assert('no way to retrieve the path', o.o === '[Circular]');
       wru.assert('same structure though', o.a[3] === '[Circular]');
     }
+  },{
+    name: 'should pass the right context',
+    test: function () {
+      var found = false, o = {};
+      o.o = o;
+      CircularJSON.stringify(o, function (key, value) {
+        if (!found && this === o) {
+          found = true;
+        }
+        return value;
+      });
+      wru.assert(found);
+    }
   }/*
   ,{
     name: 'reviver',

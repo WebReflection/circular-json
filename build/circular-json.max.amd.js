@@ -57,7 +57,7 @@ function generateReplacer(value, replacer, resolve) {
     // if a new object should be returned
     // or if there's some key to drop
     // let's call it here rather than "too late"
-    if (replacer) value = replacer(key, value);
+    if (replacer) value = replacer.call(this, key, value);
 
     // did you know ? Safari passes keys as integers for arrays
     if (key !== '') {
