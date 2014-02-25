@@ -137,6 +137,80 @@ wru.test([
       });
       wru.assert(found);
     }
+  }, {
+    name: 'nested arrays with breaking string (BUG#7)',
+    test: function() {
+      var
+        item = {
+          name: 'TEST'
+        },
+        original = {
+          outer: [
+            {
+              a: 'b',
+              c: 'd',
+              one: item,
+              many: [item],
+              e: 'f'
+            }
+          ]
+        },
+        str,
+        output
+      ;
+      item.value = item;
+      str = CircularJSON.stringify(original);
+      output = CircularJSON.parse(str);
+      wru.assert('string is correct', str === '{"outer":[{"a":"b","c":"d","one":{"name":"TEST","value":"~outer~0~one"},"many":["~outer~0~one"],"e":"f"}]}');
+      wru.assert('object too',
+        original.outer[0].one.name === output.outer[0].one.name &&
+        original.outer[0].many[0].name === output.outer[0].many[0].name &&
+        output.outer[0].many[0] === output.outer[0].one
+      );
+    }
+  }, {
+    name: 'nested this',
+    test: function () {
+      var
+        unique = {a:'sup'},
+        nested = {
+          prop: {
+            value: 123
+          },
+          a: [
+            {},
+            {b: [
+              {
+                a: 1,
+                d: 2,
+                c: unique,
+                z: {
+                  g: 2,
+                  a: unique,
+                  b: {
+                    r: 4,
+                    u: unique,
+                    c: 5
+                  },
+                  f: 6
+                },
+                h: 1
+              }
+            ]}
+          ],
+          b: {
+            e: 'f',
+            t: unique,
+            p: 4
+          }
+        },
+        str = CircularJSON.stringify(nested),
+        output
+      ;
+      wru.assert('string is OK', str === '{"prop":{"value":123},"a":[{},{"b":[{"a":1,"d":2,"c":{"a":"sup"},"z":{"g":2,"a":"~a~1~b~0~c","b":{"r":4,"u":"~a~1~b~0~c","c":5},"f":6},"h":1}]}],"b":{"e":"f","t":"~a~1~b~0~c","p":4}}');
+      output = CircularJSON.parse(str);
+      wru.assert('so is the obejct', output.b.t.a === 'sup' && output.a[1].b[0].c === output.b.t);
+    }
   }/*
   ,{
     name: 'reviver',

@@ -1,5 +1,5 @@
 {
-  "version": "0.1.5",
+  "version": "0.1.6",
   "name": "circular-json",
   "description": "JSON does not handle circular references. This version does",
   "homepage": "https://github.com/WebReflection/circular-json",

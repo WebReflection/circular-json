@@ -47,8 +47,11 @@ var
 function generateReplacer(value, replacer, resolve) {
   var
     path = [],
+    all  = [value],
     seen = [value],
     mapp = [resolve ? specialChar : '[Circular]'],
+    last = value,
+    lvl  = 1,
     i
   ;
   return function(key, value) {
@@ -59,8 +62,18 @@ function generateReplacer(value, replacer, resolve) {
     if (replacer) value = replacer.call(this, key, value);
 
     // did you know ? Safari passes keys as integers for arrays
+    // which means if (key) when key === 0 won't pass the check
     if (key !== '') {
+      if (last !== this) {
+        i = lvl - indexOf.call(all, this) - 1;
+        lvl -= i;
+        all.splice(lvl, all.length);
+        path.splice(lvl - 1, path.length);
+        last = this;
+      }
+      // console.log(lvl, key, path);
       if (typeof value === 'object' && value) {
+        lvl = all.push(last = value);
         i = indexOf.call(seen, value);
         if (i < 0) {
           i = seen.push(value) - 1;
@@ -75,7 +88,6 @@ function generateReplacer(value, replacer, resolve) {
           value = mapp[i];
         }
       } else {
-        path.pop();
         if (typeof value === 'string' && resolve) {
           // ensure no special char involved on deserialization
           // in this case only first char is important
