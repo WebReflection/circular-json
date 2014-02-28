@@ -1,9 +1,12 @@
 language: node_js
 node_js:
+  - 0.6
   - 0.8
-  - 0.9
+  - 0.10
 git:
   depth: 1
 branches:
   only:
     - master
+before_script:
+  - "npm install wru"
