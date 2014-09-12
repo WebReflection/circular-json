@@ -211,6 +211,19 @@ wru.test([
       output = CircularJSON.parse(str);
       wru.assert('so is the obejct', output.b.t.a === 'sup' && output.a[1].b[0].c === output.b.t);
     }
+  }
+  ,{
+    name: 'json with tilde in value',
+    test: function() {
+      var o = {bar: 'something ~ baz'};
+      var s = CircularJSON.stringify(o);
+      wru.log('string: ' + s);
+      wru.assert('string is correct', s === '{"bar":"something \\\\x7e baz"}');
+      var oo = CircularJSON.parse(s);
+      wru.log(oo);
+      wru.assert('parse is correct', oo.bar === o.bar);
+      
+    }
   }/*
   ,{
     name: 'reviver',
