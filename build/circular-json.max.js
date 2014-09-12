@@ -34,7 +34,7 @@ var
   specialCharRG = new RegExp(safeSpecialChar, 'g'),
   safeSpecialCharRG = new RegExp(escapedSafeSpecialChar, 'g'),
 
-  safeStartWithSpecialCharRG = new RegExp('(?:^|[^\\\\])' + escapedSafeSpecialChar),
+  safeStartWithSpecialCharRG = new RegExp('(?:^|([^\\\\]))' + escapedSafeSpecialChar),
 
   indexOf = [].indexOf || function(v){
     for(var i=this.length;i--&&this[i]!==v;);
@@ -119,7 +119,7 @@ function generateReviver(reviver) {
     if (key === '') value = regenerate(value, value, {});
     // again, only one needed, do not use the RegExp for this replacement
     // only keys need the RegExp
-    if (isString) value = value .replace(safeStartWithSpecialCharRG, specialChar)
+    if (isString) value = value .replace(safeStartWithSpecialCharRG, '$1' + specialChar)
                                 .replace(escapedSafeSpecialChar, safeSpecialChar);
     return reviver ? reviver.call(this, key, value) : value;
   };
