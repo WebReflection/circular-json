@@ -35,6 +35,7 @@ unserialized.arr.pop() === unserialized.arr;
 
 A quick summary:
 
+  * uses `~` as a special prefix symbol to denote which parent the reference belongs to (i.e. `~root~child1~child2`)
   * reasonably fast in both serialization and deserialization
   * compact serialization for easier and slimmer transportation across environments
   * [tested and covered](test/circular-json.js) over nasty structures too
@@ -98,7 +99,7 @@ API
 It's the same as native JSON, except the fourth parameter `placeholder`, which circular references to be replaced with `"[Circular]"` (i.e. for logging).
 
 * CircularJSON.stringify(object, replacer, spacer, placeholder)
-* CircularJSON.parse(string)
+* CircularJSON.parse(string, reviver)
 
 Bear in mind `JSON.parse(CircularJSON.stringify(object))` will work but not produce the expected output.
 
