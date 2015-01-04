@@ -3,6 +3,11 @@ CircularJSON
 
 [![build status](https://secure.travis-ci.org/WebReflection/circular-json.png)](http://travis-ci.org/WebReflection/circular-json)
 
+Serializes and deserializes otherwise valid JSON objects containing circular references into and from a specialized JSON format.
+
+Example
+=====
+
 ### A Working Solution To A Common Problem
 A usage example:
 
@@ -30,35 +35,76 @@ unserialized.arr.pop() === unserialized.arr;
 
 A quick summary:
 
-  * same as `JSON.stringify` and `JSON.parse` methods with same type of arguments (same JSON API, an extra optional argument has been added to `.stringify()` to support simple placeholder)
+  * uses `~` as a special prefix symbol to denote which parent the reference belongs to (i.e. `~root~child1~child2`)
   * reasonably fast in both serialization and deserialization
   * compact serialization for easier and slimmer transportation across environments
   * [tested and covered](test/circular-json.js) over nasty structures too
   * compatible with all JavaScript engines
-  * possibility to do not resolve circular references via extra argument. As example, `CircularJSON.stringify(data, null, null, true)` can produce an output with `"[Circular]"` placeholder as other implementations might do.
+  
+Node Installation & Usage
+============
 
+```bash
+npm install --save circular-json
+```
 
-### Dependencies
-A proper **JSON** object must be globally available if the browser/engine does not support it.
+```javascript
+'use strict';
 
-Dependencies free if you target IE8 and greater or any server side JS engine.
+var CircularJSON = require('circular-json')
+  , obj = { foo: 'bar' }
+  , str
+  ;
+  
+obj.self = obj;
+str = CircularJSON.stringify(obj);
+```
 
-Bear in mind `JSON.parse(CircularJSON.stringify(object))` will work but not produce the expected output.
+There are no dependencies.
+
+Browser Installation & Usage
+================
+
+* Global: <build/circular-json.js>
+* AMD: <build/circular-json.amd.js>
+* CommonJS: <build/circular-json.node.js>
+
+(generated via [gitstrap](https://github.com/WebReflection/gitstrap))
+
+```html
+<script src="build/circular-json.js"></script>
+```
+
+```javascript
+'use strict';
+
+var CircularJSON = window.CircularJSON
+  , obj = { foo: 'bar' }
+  , str
+  ;
+  
+obj.self = obj;
+str = CircularJSON.stringify(obj);
+```
+
+NOTE: Platforms without native JSON (i.e. MSIE <= 8) requires `json3.js` or similar.
 
 It is also *a bad idea* to `CircularJSON.parse(JSON.stringify(object))` because of those manipulation used in `CircularJSON.stringify()` able to make parsing safe and secure.
 
 As summary: `CircularJSON.parse(CircularJSON.stringify(object))` is the way to go, same is for `JSON.parse(JSON.stringify(object))`.
 
+API
+===
 
-### Which Version
-The usual structure for my repos, the one generated via [gitstrap](https://github.com/WebReflection/gitstrap), so:
+It's the same as native JSON, except the fourth parameter `placeholder`, which circular references to be replaced with `"[Circular]"` (i.e. for logging).
 
-  * all browsers, generic, as [global CircularJSON object](build/circular-json.js)
-  * [node.js module](build/circular-json.node.js), also via `npm install circular-json` and later on `var CircularJSON = require('circular-json')`
-  * [AMD module](build/circular-json.amd.js) loader, as CircularJSON object
+* CircularJSON.stringify(object, replacer, spacer, placeholder)
+* CircularJSON.parse(string, reviver)
 
-The **API** is the **same as JSON Object** so nothing new to learn here while [full test coverage](test/circular-json.js) is also in the usual place with some example included.
+Bear in mind `JSON.parse(CircularJSON.stringify(object))` will work but not produce the expected output.
 
+Similar Libraries
+=======
 
 ### Why Not the [@izs](https://twitter.com/izs) One
 The module [json-stringify-safe](https://github.com/isaacs/json-stringify-safe) seems to be for `console.log()`  but it's completely pointless for `JSON.parse()`, being latter one unable to retrieve back the initial structure. Here an example:
