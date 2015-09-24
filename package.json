@@ -1,5 +1,5 @@
 {
-  "version": "0.1.6",
+  "version": "0.2.0",
   "name": "circular-json",
   "description": "JSON does not handle circular references. This version does",
   "homepage": "https://github.com/WebReflection/circular-json",
@@ -17,7 +17,7 @@
   "scripts": {
     "test": "node test/.test.js"
   },
-  "dependencies": {
-    "wru": ">= 0.0.0"
+  "devDependencies": {
+    "wru": "*"
   }
 }
