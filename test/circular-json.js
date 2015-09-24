@@ -223,8 +223,46 @@ wru.test([
       wru.log(oo);
       wru.assert('parse is correct', oo.bar === o.bar);
       
-    }
-  }/*
+    },
+  },{
+    name: 'object reference to parent causes reference path issue (Bug #17)',
+	    test: function() {
+		    var o = {};
+		    o.a = {
+		      aa: {
+		        aaa: 'value1'
+		      }
+		    };
+		    o.b = o;
+		    o.c = {
+		      ca: {},
+		      cb: {},
+		      cc: {},
+		      cd: {},
+		      ce: 'value2',
+		      cf: 'value3'
+		    };
+		    o.c.ca.caa = o.c.ca;
+		    o.c.cb.cba = o.c.cb;
+		    o.c.cc.cca = o.c;
+		    o.c.cd.cda = o.c.ca.caa;
+	    
+	      var s = CircularJSON.stringify(o);
+	      wru.assert('string is correct', s === '{"a":{"aa":{"aaa":"value1"}},"b":"~","c":{"ca":{"caa":"~c~ca"},"cb":{"cba":"~c~cb"},"cc":{"cca":"~c"},"cd":{"cda":"~c~ca"},"ce":"value2","cf":"value3"}}');
+	      var oo = CircularJSON.parse(s);
+	      wru.assert('parse is correct', 
+	  		oo.a.aa.aaa = 'value1'
+	      	&& oo === oo.b
+	      	&& o.c.ca.caa === o.c.ca
+		    && o.c.cb.cba === o.c.cb
+		    && o.c.cc.cca === o.c
+		    && o.c.cd.cda === o.c.ca.caa
+		    && oo.c.ce === 'value2'
+		    && oo.c.cf === 'value3'
+	      	);
+	    }
+	}
+  /*
   ,{
     name: 'reviver',
     test: function() {
