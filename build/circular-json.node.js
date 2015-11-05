@@ -75,7 +75,7 @@ function generateReplacer(value, replacer, resolve) {
       if (typeof value === 'object' && value) {
     	// if object isn't referring to parent object, add to the
         // object path stack. Otherwise it is already there.
-        if (value !== this) {
+        if (indexOf.call(all, value) < 0) {
           all.push(last = value);
         }
         lvl = all.length;

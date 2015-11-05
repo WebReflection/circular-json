@@ -261,7 +261,32 @@ wru.test([
 		    && oo.c.cf === 'value3'
 	      	);
 	    }
-	}
+	}, {
+    name: 'double circular',
+    test: function () {
+      var
+        original = {
+          a1: {
+            a2: [],
+            a3: [{name: 'whatever'}]
+          },
+          a4: []
+        },
+        json,
+        restored
+      ;
+
+      original.a1.a2[0] = original.a1;
+      original.a4[0] = original.a1.a3[0];
+
+      json = CircularJSON.stringify(original);
+      restored = CircularJSON.parse(json);
+
+      wru.assert('~a1~a2~0 === ~a1', restored.a1.a2[0] === restored.a1);
+      wru.assert('~a4 === ~a1~a3~0', restored.a4[0] = restored.a1.a3[0]);
+
+    }
+  }
   /*
   ,{
     name: 'reviver',
