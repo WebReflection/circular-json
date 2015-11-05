@@ -30,8 +30,12 @@ var
   safeSpecialChar = '\\x' + (
     '0' + specialChar.charCodeAt(0).toString(16)
   ).slice(-2),
+  escapedSafeSpecialChar = '\\' + safeSpecialChar,
   specialCharRG = new RegExp(safeSpecialChar, 'g'),
-  safeSpecialCharRG = new RegExp('\\' + safeSpecialChar, 'g'),
+  safeSpecialCharRG = new RegExp(escapedSafeSpecialChar, 'g'),
+
+  safeStartWithSpecialCharRG = new RegExp('(?:^|([^\\\\]))' + escapedSafeSpecialChar),
+
   indexOf = [].indexOf || function(v){
     for(var i=this.length;i--&&this[i]!==v;);
     return i;
@@ -41,11 +45,14 @@ var
                     // faked, and happy linter!
 ;
 
-function generateReplacer(value, replacer) {
+function generateReplacer(value, replacer, resolve) {
   var
     path = [],
+    all  = [value],
     seen = [value],
-    mapp = [specialChar],
+    mapp = [resolve ? specialChar : '[Circular]'],
+    last = value,
+    lvl  = 1,
     i
   ;
   return function(key, value) {
@@ -53,26 +60,46 @@ function generateReplacer(value, replacer) {
     // if a new object should be returned
     // or if there's some key to drop
     // let's call it here rather than "too late"
-    if (replacer) value = replacer(key, value);
+    if (replacer) value = replacer.call(this, key, value);
 
     // did you know ? Safari passes keys as integers for arrays
+    // which means if (key) when key === 0 won't pass the check
     if (key !== '') {
+      if (last !== this) {
+        i = lvl - indexOf.call(all, this) - 1;
+        lvl -= i;
+        all.splice(lvl, all.length);
+        path.splice(lvl - 1, path.length);
+        last = this;
+      }
+      // console.log(lvl, key, path);
       if (typeof value === 'object' && value) {
+    	// if object isn't referring to parent object, add to the
+        // object path stack. Otherwise it is already there.
+        if (indexOf.call(all, value) < 0) {
+          all.push(last = value);
+        }
+        lvl = all.length;
         i = indexOf.call(seen, value);
         if (i < 0) {
-          // key cannot contain specialChar but could be not a string
-          path.push(('' + key).replace(specialCharRG, safeSpecialChar));
-          mapp[seen.push(value) - 1] = specialChar + path.join(specialChar);
+          i = seen.push(value) - 1;
+          if (resolve) {
+            // key cannot contain specialChar but could be not a string
+            path.push(('' + key).replace(specialCharRG, safeSpecialChar));
+            mapp[i] = specialChar + path.join(specialChar);
+          } else {
+            mapp[i] = mapp[0];
+          }
         } else {
           value = mapp[i];
         }
       } else {
-        path.pop();
-        if (typeof value === 'string') {
+        if (typeof value === 'string' && resolve) {
           // ensure no special char involved on deserialization
           // in this case only first char is important
           // no need to replace all value (better performance)
-          value = value.replace(specialChar, safeSpecialChar);
+          value = value .replace(safeSpecialChar, escapedSafeSpecialChar)
+                        .replace(specialChar, safeSpecialChar);
         }
       }
     }
@@ -97,8 +124,9 @@ function generateReviver(reviver) {
     if (key === '') value = regenerate(value, value, {});
     // again, only one needed, do not use the RegExp for this replacement
     // only keys need the RegExp
-    if (isString) value = value.replace(safeSpecialChar, specialChar);
-    return reviver ? reviver(key, value) : value;
+    if (isString) value = value .replace(safeStartWithSpecialCharRG, '$1' + specialChar)
+                                .replace(escapedSafeSpecialChar, safeSpecialChar);
+    return reviver ? reviver.call(this, key, value) : value;
   };
 }
 
@@ -147,8 +175,8 @@ function regenerate(root, current, retrieve) {
   ;
 }
 
-function stringifyRecursion(value, replacer, space) {
-  return JSON.stringify(value, generateReplacer(value, replacer), space);
+function stringifyRecursion(value, replacer, space, doNotResolve) {
+  return JSON.stringify(value, generateReplacer(value, replacer, !doNotResolve), space);
 }
 
 function parseRecursion(text, reviver) {

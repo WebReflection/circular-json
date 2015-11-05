@@ -4,6 +4,17 @@ var CircularJSON = require('../build/circular-json.node.js');
 
 wru.test([
   {
+    name: 'simulating special char',
+    test: function () {
+      var special = "\\x7e"; // \x7e is ~
+      //wru.log(CircularJSON.stringify({a:special}));
+      //wru.log(CircularJSON.parse(CircularJSON.stringify({a:special})).a);
+      wru.assert('no problem with simulation', CircularJSON.parse(CircularJSON.stringify({a:special})).a === special);
+      special = "~\\x7e";
+      wru.assert('no problem with special', CircularJSON.parse(CircularJSON.stringify({a:special})).a === special);
+    }
+  },
+  {
     name: "CircularJSON",
     test: function () {
       var o = {a: 'a', b: 'b', c: function(){}, d: {e: 123}},
@@ -73,7 +84,12 @@ wru.test([
     test: function () {
       var o = {};
       o['~'] = o;
+      o['\\x7e'] = '\\x7e';
       o.test = '~';
+
+      //wru.log(CircularJSON.stringify(o));
+      //wru.log(CircularJSON.parse(CircularJSON.stringify(o)));
+
       o = CircularJSON.parse(CircularJSON.stringify(o));
       wru.assert('still intact', o['~'] === o && o.test === '~');
       o = {
@@ -98,7 +114,180 @@ wru.test([
         o.a.join('') === '~~~~~~'
       );
     }
-  }/*
+  },{
+    name: 'doNotResolve',
+    test: function () {
+      var o = {a:[1,2,3]};
+      o.o = o;
+      o.a.push(o);
+      o = CircularJSON.parse(CircularJSON.stringify(o, null, null, true));
+      wru.assert('no way to retrieve the path', o.o === '[Circular]');
+      wru.assert('same structure though', o.a[3] === '[Circular]');
+    }
+  },{
+    name: 'should pass the right context',
+    test: function () {
+      var found = false, o = {};
+      o.o = o;
+      CircularJSON.stringify(o, function (key, value) {
+        if (!found && this === o) {
+          found = true;
+        }
+        return value;
+      });
+      wru.assert(found);
+    }
+  }, {
+    name: 'nested arrays with breaking string (BUG#7)',
+    test: function() {
+      var
+        item = {
+          name: 'TEST'
+        },
+        original = {
+          outer: [
+            {
+              a: 'b',
+              c: 'd',
+              one: item,
+              many: [item],
+              e: 'f'
+            }
+          ]
+        },
+        str,
+        output
+      ;
+      item.value = item;
+      str = CircularJSON.stringify(original);
+      output = CircularJSON.parse(str);
+      wru.assert('string is correct', str === '{"outer":[{"a":"b","c":"d","one":{"name":"TEST","value":"~outer~0~one"},"many":["~outer~0~one"],"e":"f"}]}');
+      wru.assert('object too',
+        original.outer[0].one.name === output.outer[0].one.name &&
+        original.outer[0].many[0].name === output.outer[0].many[0].name &&
+        output.outer[0].many[0] === output.outer[0].one
+      );
+    }
+  }, {
+    name: 'nested this',
+    test: function () {
+      var
+        unique = {a:'sup'},
+        nested = {
+          prop: {
+            value: 123
+          },
+          a: [
+            {},
+            {b: [
+              {
+                a: 1,
+                d: 2,
+                c: unique,
+                z: {
+                  g: 2,
+                  a: unique,
+                  b: {
+                    r: 4,
+                    u: unique,
+                    c: 5
+                  },
+                  f: 6
+                },
+                h: 1
+              }
+            ]}
+          ],
+          b: {
+            e: 'f',
+            t: unique,
+            p: 4
+          }
+        },
+        str = CircularJSON.stringify(nested),
+        output
+      ;
+      wru.assert('string is OK', str === '{"prop":{"value":123},"a":[{},{"b":[{"a":1,"d":2,"c":{"a":"sup"},"z":{"g":2,"a":"~a~1~b~0~c","b":{"r":4,"u":"~a~1~b~0~c","c":5},"f":6},"h":1}]}],"b":{"e":"f","t":"~a~1~b~0~c","p":4}}');
+      output = CircularJSON.parse(str);
+      wru.assert('so is the obejct', output.b.t.a === 'sup' && output.a[1].b[0].c === output.b.t);
+    }
+  }
+  ,{
+    name: 'json with tilde in value',
+    test: function() {
+      var o = {bar: 'something ~ baz'};
+      var s = CircularJSON.stringify(o);
+      wru.log('string: ' + s);
+      wru.assert('string is correct', s === '{"bar":"something \\\\x7e baz"}');
+      var oo = CircularJSON.parse(s);
+      wru.log(oo);
+      wru.assert('parse is correct', oo.bar === o.bar);
+      
+    },
+  },{
+    name: 'object reference to parent causes reference path issue (Bug #17)',
+	    test: function() {
+		    var o = {};
+		    o.a = {
+		      aa: {
+		        aaa: 'value1'
+		      }
+		    };
+		    o.b = o;
+		    o.c = {
+		      ca: {},
+		      cb: {},
+		      cc: {},
+		      cd: {},
+		      ce: 'value2',
+		      cf: 'value3'
+		    };
+		    o.c.ca.caa = o.c.ca;
+		    o.c.cb.cba = o.c.cb;
+		    o.c.cc.cca = o.c;
+		    o.c.cd.cda = o.c.ca.caa;
+	    
+	      var s = CircularJSON.stringify(o);
+	      wru.assert('string is correct', s === '{"a":{"aa":{"aaa":"value1"}},"b":"~","c":{"ca":{"caa":"~c~ca"},"cb":{"cba":"~c~cb"},"cc":{"cca":"~c"},"cd":{"cda":"~c~ca"},"ce":"value2","cf":"value3"}}');
+	      var oo = CircularJSON.parse(s);
+	      wru.assert('parse is correct', 
+	  		oo.a.aa.aaa = 'value1'
+	      	&& oo === oo.b
+	      	&& o.c.ca.caa === o.c.ca
+		    && o.c.cb.cba === o.c.cb
+		    && o.c.cc.cca === o.c
+		    && o.c.cd.cda === o.c.ca.caa
+		    && oo.c.ce === 'value2'
+		    && oo.c.cf === 'value3'
+	      	);
+	    }
+	}, {
+    name: 'double circular',
+    test: function () {
+      var
+        original = {
+          a1: {
+            a2: [],
+            a3: [{name: 'whatever'}]
+          },
+          a4: []
+        },
+        json,
+        restored
+      ;
+
+      original.a1.a2[0] = original.a1;
+      original.a4[0] = original.a1.a3[0];
+
+      json = CircularJSON.stringify(original);
+      restored = CircularJSON.parse(json);
+
+      wru.assert('~a1~a2~0 === ~a1', restored.a1.a2[0] === restored.a1);
+      wru.assert('~a4 === ~a1~a3~0', restored.a4[0] = restored.a1.a3[0]);
+
+    }
+  }
+  /*
   ,{
     name: 'reviver',
     test: function() {
