@@ -2,6 +2,7 @@
   "version": "0.3.0",
   "name": "circular-json",
   "description": "JSON does not handle circular references. This version does",
+  "license": "MIT",
   "homepage": "https://github.com/WebReflection/circular-json",
   "keywords": ["JSON", "circular", "reference", "recursive", "recursion", "parse", "stringify"],
   "generator": "https://github.com/WebReflection/gitstrap",
