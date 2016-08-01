@@ -1,7 +1,7 @@
 CircularJSON
 ============
 
-[![build status](https://secure.travis-ci.org/WebReflection/circular-json.png)](http://travis-ci.org/WebReflection/circular-json)
+[![build status](https://secure.travis-ci.org/WebReflection/circular-json.svg)](http://travis-ci.org/WebReflection/circular-json)
 
 Serializes and deserializes otherwise valid JSON objects containing circular references into and from a specialized JSON format.
 
