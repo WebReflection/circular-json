@@ -286,6 +286,17 @@ wru.test([
       wru.assert('~a4 === ~a1~a3~0', restored.a4[0] = restored.a1.a3[0]);
 
     }
+  }, {
+    name: 'Symbols do not fail',
+    test: function () {
+      if (typeof Symbol !== 'undefined') {
+        var o = {a: 1};
+        var a = [1, Symbol('test'), 2];
+        o[Symbol('test')] = 123;
+        wru.assert(JSON.stringify(o) === CircularJSON.stringify(o));
+        wru.assert(JSON.stringify(a) === CircularJSON.stringify(a));
+      }
+    }
   }
   /*
   ,{
