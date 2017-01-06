@@ -183,3 +183,5 @@ function parseRecursion(text, reviver) {
 }
 this.stringify = stringifyRecursion;
 this.parse = parseRecursion;
+
+module.exports = this;
