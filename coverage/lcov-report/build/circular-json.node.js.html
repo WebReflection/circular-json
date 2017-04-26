@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for build/circular-json.node.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">build/</a> circular-json.node.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>60/60</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>48/48</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>11/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>57/57</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">142×</span>
+<span class="cline-any cline-yes">142×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-yes">104×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">104×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59×</span>
+<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59×</span>
+<span class="cline-any cline-yes">59×</span>
+<span class="cline-any cline-yes">59×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">122×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">106×</span>
+<span class="cline-any cline-yes">106×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">82×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">36×</span>
+<span class="cline-any cline-yes">79×</span>
+<span class="cline-any cline-yes">76×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">36×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">106×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span></td><td class="text"><pre class="prettyprint lang-js">/*!
+Copyright (C) 2013 by WebReflection
+&nbsp;
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+&nbsp;
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+&nbsp;
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+&nbsp;
+*/
+var
+  // should be a not so common char
+  // possibly one JSON does not encode
+  // possibly one encodeURIComponent does not encode
+  // right now this char is '~' but this might change in the future
+  specialChar = '~',
+  safeSpecialChar = '\\x' + (
+    '0' + specialChar.charCodeAt(0).toString(16)
+  ).slice(-2),
+  escapedSafeSpecialChar = '\\' + safeSpecialChar,
+  specialCharRG = new RegExp(safeSpecialChar, 'g'),
+  safeSpecialCharRG = new RegExp(escapedSafeSpecialChar, 'g'),
+&nbsp;
+  safeStartWithSpecialCharRG = new RegExp('(?:^|([^\\\\]))' + escapedSafeSpecialChar),
+&nbsp;
+  indexOf = [].indexOf || function(v){
+    for(var i=this.length;i--&amp;&amp;this[i]!==v;);
+    return i;
+  },
+  $String = String  // there's no way to drop warnings in JSHint
+                    // about new String ... well, I need that here!
+                    // faked, and happy linter!
+;
+&nbsp;
+function generateReplacer(value, replacer, resolve) {
+  var
+    path = [],
+    all  = [value],
+    seen = [value],
+    mapp = [resolve ? specialChar : '[Circular]'],
+    last = value,
+    lvl  = 1,
+    i
+  ;
+  return function(key, value) {
+    // the replacer has rights to decide
+    // if a new object should be returned
+    // or if there's some key to drop
+    // let's call it here rather than "too late"
+    if (replacer) value = replacer.call(this, key, value);
+&nbsp;
+    // did you know ? Safari passes keys as integers for arrays
+    // which means if (key) when key === 0 won't pass the check
+    if (key !== '') {
+      if (last !== this) {
+        i = lvl - indexOf.call(all, this) - 1;
+        lvl -= i;
+        all.splice(lvl, all.length);
+        path.splice(lvl - 1, path.length);
+        last = this;
+      }
+      // console.log(lvl, key, path);
+      if (typeof value === 'object' &amp;&amp; value) {
+    	// if object isn't referring to parent object, add to the
+        // object path stack. Otherwise it is already there.
+        if (indexOf.call(all, value) &lt; 0) {
+          all.push(last = value);
+        }
+        lvl = all.length;
+        i = indexOf.call(seen, value);
+        if (i &lt; 0) {
+          i = seen.push(value) - 1;
+          if (resolve) {
+            // key cannot contain specialChar but could be not a string
+            path.push(('' + key).replace(specialCharRG, safeSpecialChar));
+            mapp[i] = specialChar + path.join(specialChar);
+          } else {
+            mapp[i] = mapp[0];
+          }
+        } else {
+          value = mapp[i];
+        }
+      } else {
+        if (typeof value === 'string' &amp;&amp; resolve) {
+          // ensure no special char involved on deserialization
+          // in this case only first char is important
+          // no need to replace all value (better performance)
+          value = value .replace(safeSpecialChar, escapedSafeSpecialChar)
+                        .replace(specialChar, safeSpecialChar);
+        }
+      }
+    }
+    return value;
+  };
+}
+&nbsp;
+function retrieveFromPath(current, keys) {
+  for(var i = 0, length = keys.length; i &lt; length; current = current[
+    // keys should be normalized back here
+    keys[i++].replace(safeSpecialCharRG, specialChar)
+  ]);
+  return current;
+}
+&nbsp;
+function generateReviver(reviver) {
+  return function(key, value) {
+    var isString = typeof value === 'string';
+    if (isString &amp;&amp; value.charAt(0) === specialChar) {
+      return new $String(value.slice(1));
+    }
+    if (key === '') value = regenerate(value, value, {});
+    // again, only one needed, do not use the RegExp for this replacement
+    // only keys need the RegExp
+    if (isString) value = value .replace(safeStartWithSpecialCharRG, '$1' + specialChar)
+                                .replace(escapedSafeSpecialChar, safeSpecialChar);
+    return reviver ? reviver.call(this, key, value) : value;
+  };
+}
+&nbsp;
+function regenerateArray(root, current, retrieve) {
+  for (var i = 0, length = current.length; i &lt; length; i++) {
+    current[i] = regenerate(root, current[i], retrieve);
+  }
+  return current;
+}
+&nbsp;
+function regenerateObject(root, current, retrieve) {
+  for (var key in current) {
+    if (current.hasOwnProperty(key)) {
+      current[key] = regenerate(root, current[key], retrieve);
+    }
+  }
+  return current;
+}
+&nbsp;
+function regenerate(root, current, retrieve) {
+  return current instanceof Array ?
+    // fast Array reconstruction
+    regenerateArray(root, current, retrieve) :
+    (
+      current instanceof $String ?
+        (
+          // root is an empty string
+          current.length ?
+            (
+              retrieve.hasOwnProperty(current) ?
+                retrieve[current] :
+                retrieve[current] = retrieveFromPath(
+                  root, current.split(specialChar)
+                )
+            ) :
+            root
+        ) :
+        (
+          current instanceof Object ?
+            // dedicated Object parser
+            regenerateObject(root, current, retrieve) :
+            // value as it is
+            current
+        )
+    )
+  ;
+}
+&nbsp;
+function stringifyRecursion(value, replacer, space, doNotResolve) {
+  return JSON.stringify(value, generateReplacer(value, replacer, !doNotResolve), space);
+}
+&nbsp;
+function parseRecursion(text, reviver) {
+  return JSON.parse(text, generateReviver(reviver));
+}
+this.stringify = stringifyRecursion;
+this.parse = parseRecursion;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Apr 26 2017 11:07:06 GMT+0100 (BST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

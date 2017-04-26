@@ -4,7 +4,15 @@
   "description": "JSON does not handle circular references. This version does",
   "license": "MIT",
   "homepage": "https://github.com/WebReflection/circular-json",
-  "keywords": ["JSON", "circular", "reference", "recursive", "recursion", "parse", "stringify"],
+  "keywords": [
+    "JSON",
+    "circular",
+    "reference",
+    "recursive",
+    "recursion",
+    "parse",
+    "stringify"
+  ],
   "generator": "https://github.com/WebReflection/gitstrap",
   "author": {
     "name": "Andrea Giammarchi",
@@ -16,9 +24,13 @@
   },
   "main": "./build/circular-json.node.js",
   "scripts": {
-    "test": "node test/.test.js"
+    "test": "istanbul cover test/circular-json.js",
+    "web": "$(sleep 2 && open http://0.0.0.0:7151/) & tiny-cdn run ./"
   },
   "devDependencies": {
-    "wru": "*"
+    "coveralls": "^2.13.0",
+    "istanbul": "^0.4.5",
+    "tiny-cdn": "^0.7.0",
+    "tressa": "^0.3.1"
   }
 }
