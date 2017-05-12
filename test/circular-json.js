@@ -309,7 +309,7 @@ if (typeof Symbol !== 'undefined') {
 }());
 
 
-if (!tressa.exitCode && typeof document !== 'udnefined') {
+if (!tressa.exitCode && typeof document !== 'undefined') {
   document.body.style.backgroundColor = '#0FA';
 }
 tressa.end();
