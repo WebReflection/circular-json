@@ -1,7 +1,7 @@
 CircularJSON
 ============
 
-[![Build Status](https://travis-ci.org/WebReflection/circular-json.svg?branch=master)](https://travis-ci.org/WebReflection/circular-json) [![Coverage Status](https://coveralls.io/repos/github/WebReflection/circular-json/badge.svg?branch=master)](https://coveralls.io/github/WebReflection/circular-json?branch=master) [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/WebReflection/donate)
+![Downloads](https://img.shields.io/npm/dm/circular-json.svg) [![Build Status](https://travis-ci.org/WebReflection/circular-json.svg?branch=master)](https://travis-ci.org/WebReflection/circular-json) [![Coverage Status](https://coveralls.io/repos/github/WebReflection/circular-json/badge.svg?branch=master)](https://coveralls.io/github/WebReflection/circular-json?branch=master) [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/WebReflection/donate)
 
 Serializes and deserializes otherwise valid JSON objects containing circular references into and from a specialized JSON format.
 
