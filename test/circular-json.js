@@ -308,6 +308,14 @@ if (typeof Symbol !== 'undefined') {
   tressa.assert(CircularJSON.stringify.apply(null, args) === JSON.stringify.apply(null, args), 'extra args same as JSON');
 }());
 
+(function () {
+  var o = {a: 1, b: {a: 1, b: 2}};
+  var json = JSON.stringify(o, ['b']);
+  tressa.assert(
+    CircularJSON.stringify(o, ['b']) === json,
+    'whitelisted ["b"]: '+ json
+  );
+}());
 
 if (!tressa.exitCode && typeof document !== 'undefined') {
   document.body.style.backgroundColor = '#0FA';

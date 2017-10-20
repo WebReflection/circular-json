@@ -24,20 +24,28 @@ var
 
 function generateReplacer(value, replacer, resolve) {
   var
+    inspect = !!replacer,
     path = [],
     all  = [value],
     seen = [value],
     mapp = [resolve ? specialChar : '[Circular]'],
     last = value,
     lvl  = 1,
-    i
+    i, fn
   ;
+  if (inspect) {
+    fn = typeof replacer === 'object' ?
+      function (key, value) {
+        return key !== '' && replacer.indexOf(key) < 0 ? void 0 : value;
+      } :
+      replacer;
+  }
   return function(key, value) {
     // the replacer has rights to decide
     // if a new object should be returned
     // or if there's some key to drop
     // let's call it here rather than "too late"
-    if (replacer) value = replacer.call(this, key, value);
+    if (inspect) value = fn.call(this, key, value);
 
     // did you know ? Safari passes keys as integers for arrays
     // which means if (key) when key === 0 won't pass the check

@@ -4,6 +4,8 @@ test/*
 template/*
 node_modules/*
 build/*.amd.js
+.gitignore
 .travis.yml
-Makefile
 index.html
+Makefile
+package-lock.json
