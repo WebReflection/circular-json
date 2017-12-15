@@ -1,7 +1,7 @@
 CircularJSON
 ============
 
-![Downloads](https://img.shields.io/npm/dm/circular-json.svg) [![Build Status](https://travis-ci.org/WebReflection/circular-json.svg?branch=master)](https://travis-ci.org/WebReflection/circular-json) [![Coverage Status](https://coveralls.io/repos/github/WebReflection/circular-json/badge.svg?branch=master)](https://coveralls.io/github/WebReflection/circular-json?branch=master) [![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/WebReflection/donate)
+[![donate](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&style=flat)](https://github.com/WebReflection/donate) ![Downloads](https://img.shields.io/npm/dm/circular-json.svg) [![Build Status](https://travis-ci.org/WebReflection/circular-json.svg?branch=master)](https://travis-ci.org/WebReflection/circular-json) [![Coverage Status](https://coveralls.io/repos/github/WebReflection/circular-json/badge.svg?branch=master)](https://coveralls.io/github/WebReflection/circular-json?branch=master)
 
 Serializes and deserializes otherwise valid JSON objects containing circular references into and from a specialized JSON format.
 
@@ -34,12 +34,13 @@ unserialized.arr.pop() === unserialized.arr;
 
 A quick summary:
 
+  * **new** in version `0.5`, you can specify a JSON parser different from JSON itself. `CircularJSON.parser = ABetterJSON;` is all you need.
   * uses `~` as a special prefix symbol to denote which parent the reference belongs to (i.e. `~root~child1~child2`)
   * reasonably fast in both serialization and deserialization
   * compact serialization for easier and slimmer transportation across environments
   * [tested and covered](test/circular-json.js) over nasty structures too
   * compatible with all JavaScript engines
-  
+
 Node Installation & Usage
 ============
 
