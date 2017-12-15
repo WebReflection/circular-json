@@ -1,6 +1,4 @@
 
-return {
-  stringify: stringifyRecursion,
-  parse: parseRecursion
-};
+return CircularJSON;
+
 }(JSON, RegExp)));

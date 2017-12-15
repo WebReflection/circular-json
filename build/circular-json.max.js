@@ -183,15 +183,26 @@ function regenerate(root, current, retrieve) {
   ;
 }
 
-function stringifyRecursion(value, replacer, space, doNotResolve) {
-  return JSON.stringify(value, generateReplacer(value, replacer, !doNotResolve), space);
-}
-
-function parseRecursion(text, reviver) {
-  return JSON.parse(text, generateReviver(reviver));
-}
-return {
-  stringify: stringifyRecursion,
-  parse: parseRecursion
+var CircularJSON = {
+  stringify: function stringify(value, replacer, space, doNotResolve) {
+    return CircularJSON.parser.stringify(
+      value,
+      generateReplacer(value, replacer, !doNotResolve),
+      space
+    );
+  },
+  parse: function parse(text, reviver) {
+    return CircularJSON.parser.parse(
+      text,
+      generateReviver(reviver)
+    );
+  },
+  // A parser should be an API 1:1 compatible with JSON
+  // it should expose stringify and parse methods.
+  // The default parser is the native JSON.
+  parser: JSON
 };
+
+return CircularJSON;
+
 }(JSON, RegExp));

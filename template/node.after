@@ -1,3 +1,2 @@
 
-this.stringify = stringifyRecursion;
-this.parse = parseRecursion;
+module.exports = CircularJSON;
