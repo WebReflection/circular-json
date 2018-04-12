@@ -24,6 +24,7 @@ var
 
 function generateReplacer(value, replacer, resolve) {
   var
+    doNotIgnore = false,
     inspect = !!replacer,
     path = [],
     all  = [value],
@@ -47,11 +48,8 @@ function generateReplacer(value, replacer, resolve) {
     // let's call it here rather than "too late"
     if (inspect) value = fn.call(this, key, value);
 
-    // did you know ? Safari passes keys as integers for arrays
-    // which means if (key) when key === 0 won't pass the check
-    // if a key is empty though, be sure it's the root value,
-    // otherwise just parse it
-    if (key !== '' || value !== all[0]) {
+    // first pass should be ignored, since it's just the initial object
+    if (doNotIgnore) {
       if (last !== this) {
         i = lvl - indexOf.call(all, this) - 1;
         lvl -= i;
@@ -89,6 +87,8 @@ function generateReplacer(value, replacer, resolve) {
                         .replace(specialChar, safeSpecialChar);
         }
       }
+    } else {
+      doNotIgnore = true;
     }
     return value;
   };
