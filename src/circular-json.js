@@ -49,7 +49,9 @@ function generateReplacer(value, replacer, resolve) {
 
     // did you know ? Safari passes keys as integers for arrays
     // which means if (key) when key === 0 won't pass the check
-    if (key !== '') {
+    // if a key is empty though, be sure it's the root value,
+    // otherwise just parse it
+    if (key !== '' || value !== all[0]) {
       if (last !== this) {
         i = lvl - indexOf.call(all, this) - 1;
         lvl -= i;

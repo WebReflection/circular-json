@@ -317,6 +317,24 @@ if (typeof Symbol !== 'undefined') {
   );
 }());
 
+(function () {
+  var a = { b: { '': { c: { d: 1 } } } };
+  a._circular = a.b[''];
+  var json = CircularJSON.stringify(a);
+  var nosj = CircularJSON.parse(json);
+  tressa.assert(
+    nosj._circular === nosj.b[''] &&
+    JSON.stringify(nosj._circular) === JSON.stringify(a._circular),
+    'empty keys as non root objects work'
+  );
+  delete a._circular;
+  delete nosj._circular;
+  tressa.assert(
+    JSON.stringify(nosj) === JSON.stringify(a),
+    'objects copied with circular empty keys are the same'
+  );
+}());
+
 if (!tressa.exitCode && typeof document !== 'undefined') {
   document.body.style.backgroundColor = '#0FA';
 }
