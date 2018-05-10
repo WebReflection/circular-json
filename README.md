@@ -7,6 +7,24 @@ Serializes and deserializes otherwise valid JSON objects containing circular ref
 
 - - -
 
+## Check out [flatted](https://github.com/WebReflection/flatted#flatted) too !!!
+
+The future engine of CircularJSON is represented by [flatted](https://github.com/WebReflection/flatted#flatted)
+
+  * smaller output, compared to every other alternative
+  * fast, and usually much faster, than CircularJSON, on IE/Edge browser too
+  * smaller in size, easier to maintain, 30 LOC proof of concept
+
+The next release of CircularJSON will be based on `flatted` representation which is,
+as the term indicates, a flat array of references.
+
+That means that produced and imported strings will **not be compatible** with CircularJSON one.
+
+If you care about improving serialization of your data, and you don't need extra JSON API arguments,
+try to see if `flatted` works already out of the box.
+
+- - -
+
 ### A Working Solution To A Common Problem
 A usage example:
 
