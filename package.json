@@ -22,6 +22,7 @@
     "type": "git",
     "url": "git://github.com/WebReflection/circular-json.git"
   },
+  "unpkg": "build/circular-json.js",
   "main": "./build/circular-json.node.js",
   "scripts": {
     "test": "istanbul cover test/circular-json.js",
