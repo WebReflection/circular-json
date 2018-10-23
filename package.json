@@ -27,8 +27,7 @@
   "scripts": {
     "test": "istanbul cover test/circular-json.js",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "web": "$(sleep 2 && open http://0.0.0.0:7151/) & tiny-cdn run ./",
-    "postinstall": "echo ''; echo -e \"\\x1B[1mCircularJSON\\x1B[0m is in \\x1B[4mmaintenance only\\x1B[0m, \\x1B[1mflatted\\x1B[0m is its successor.\"; echo ''"
+    "web": "$(sleep 2 && open http://0.0.0.0:7151/) & tiny-cdn run ./"
   },
   "devDependencies": {
     "coveralls": "^2.13.0",
